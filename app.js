@@ -72,9 +72,36 @@ function onHistoryTahunAjaranChange() { const selectedTahun = riwayatTahunAjaran
 function onHistorySemesterChange() { const selectedTahun = riwayatTahunAjaranEl.value; const selectedSemester = riwayatSemesterEl.value; resetAndDisableDropdown(riwayatKelasEl, '-- Semua Kelas --'); resetAndDisableDropdown(riwayatMapelEl, '-- Semua Mapel --'); if (!selectedSemester) return; const availableKelas = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester).map(item => item.kelas).filter(Boolean))].sort(); populateDropdown('riwayatFilterKelas', availableKelas, '-- Semua Kelas --'); riwayatKelasEl.disabled = false; }
 function onHistoryKelasChange() { const selectedTahun = riwayatTahunAjaranEl.value; const selectedSemester = riwayatSemesterEl.value; const selectedKelas = riwayatKelasEl.value; resetAndDisableDropdown(riwayatMapelEl, '-- Semua Mapel --'); if (!selectedKelas) return; const availableMapel = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester && item.kelas == selectedKelas).flatMap(item => item.mapel).filter(Boolean))].sort(); populateDropdown('riwayatFilterMapel', availableMapel, '-- Semua Mapel --'); riwayatMapelEl.disabled = false; }
 function initNilaiCascadingFilters() { if (!nilaiFilterTahunAjaranEl || !hasLoadedRelationalData) return; const allTahunAjaran = [...new Set(relationalFilterData.map(item => item.tahunAjaran).filter(Boolean))].sort(); populateDropdown('nilaiFilterTahunAjaran', allTahunAjaran, '-- Pilih Tahun Ajaran --'); resetAndDisableDropdown(nilaiFilterSemesterEl, '-- Pilih Semester --'); resetAndDisableDropdown(nilaiFilterKelasEl, '-- Pilih Kelas --'); resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --'); }
-function onNilaiTahunAjaranChange() { const selectedTahun = nilaiFilterTahunAjaranEl.value; resetAndDisableDropdown(nilaiFilterSemesterEl, '-- Pilih Semester --'); resetAndDisableDropdown(nilaiFilterKelasEl, '-- Pilih Kelas --'); resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --'); if (!selectedTahun) return; const availableSemesters = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun).map(item => item.semester).filter(Boolean))].sort(); populateDropdown('nilaiFilterSemester', availableSemesters, '-- Pilih Semester --'); nilaiFilterSemesterEl.disabled = false; }
-function onNilaiSemesterChange() { const selectedTahun = nilaiFilterTahunAjaranEl.value; const selectedSemester = nilaiFilterSemesterEl.value; resetAndDisableDropdown(nilaiFilterKelasEl, '-- Pilih Kelas --'); resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --'); if (!selectedSemester) return; const availableKelas = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester).map(item => item.kelas).filter(Boolean))].sort(); populateDropdown('filterKelas', availableKelas, '-- Pilih Kelas --'); nilaiFilterKelasEl.disabled = false; }
-function onNilaiKelasChange() { const selectedTahun = nilaiFilterTahunAjaranEl.value; const selectedSemester = nilaiFilterSemesterEl.value; const selectedKelas = nilaiFilterKelasEl.value; resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --'); if (!selectedKelas) return; const availableMapel = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester && item.kelas == selectedKelas).flatMap(item => item.mapel).filter(Boolean))].sort(); populateDropdown('nilaiFilterMataPelajaran', availableMapel, '-- Pilih Mapel --'); nilaiFilterMataPelajaranEl.disabled = false; }
+function onNilaiTahunAjaranChange() {
+    const selectedTahun = nilaiFilterTahunAjaranEl.value; // <-- Gunakan variabel yang benar
+    resetAndDisableDropdown(nilaiFilterSemesterEl, '-- Pilih Semester --');
+    resetAndDisableDropdown(nilaiFilterKelasEl, '-- Pilih Kelas --');
+    resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --');
+    if (!selectedTahun) return;
+    const availableSemesters = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun).map(item => item.semester).filter(Boolean))].sort();
+    populateDropdown('nilaiFilterSemester', availableSemesters, '-- Pilih Semester --');
+    nilaiFilterSemesterEl.disabled = false;
+}
+function onNilaiSemesterChange() {
+    const selectedTahun = nilaiFilterTahunAjaranEl.value; // <-- Gunakan variabel yang benar
+    const selectedSemester = nilaiFilterSemesterEl.value; // <-- Gunakan variabel yang benar
+    resetAndDisableDropdown(nilaiFilterKelasEl, '-- Pilih Kelas --');
+    resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --');
+    if (!selectedSemester) return;
+    const availableKelas = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester).map(item => item.kelas).filter(Boolean))].sort();
+    populateDropdown('nilaiFilterKelas', availableKelas, '-- Pilih Kelas --');
+    nilaiFilterKelasEl.disabled = false;
+}
+function onNilaiKelasChange() {
+    const selectedTahun = nilaiFilterTahunAjaranEl.value; // <-- Gunakan variabel yang benar
+    const selectedSemester = nilaiFilterSemesterEl.value; // <-- Gunakan variabel yang benar
+    const selectedKelas = nilaiFilterKelasEl.value; // <-- Gunakan variabel yang benar
+    resetAndDisableDropdown(nilaiFilterMataPelajaranEl, '-- Pilih Mapel --');
+    if (!selectedKelas) return;
+    const availableMapel = [...new Set(relationalFilterData.filter(item => item.tahunAjaran == selectedTahun && item.semester == selectedSemester && item.kelas == selectedKelas).flatMap(item => item.mapel).filter(Boolean))].sort();
+    populateDropdown('nilaiFilterMataPelajaran', availableMapel, '-- Pilih Mapel --');
+    nilaiFilterMataPelajaranEl.disabled = false;
+}
 async function loadDashboardStats() { try { const response = await fetch(`${SCRIPT_URL}?action=getDashboardStats`); const result = await response.json(); if (result.status === 'success') { document.getElementById('statTotalJurnal').textContent = result.data.totalJurnalBulanIni; document.getElementById('statKehadiran').textContent = result.data.tingkatKehadiran; document.getElementById('statMapelTeratas').textContent = result.data.mapelTeratas; } } catch (error) { console.error("Gagal memuat statistik:", error); } }
 
 // --- 3.3. MANAJEMEN SISWA ---
